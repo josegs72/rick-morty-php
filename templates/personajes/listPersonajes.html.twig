@@ -1,0 +1,19 @@
+{% extends 'personajes/basePersonajes.html.twig' %} 
+{% block contenido %}
+<h2>Listado de Personajes</h2>
+<div class="row row-cols-1 row-cols-md-2">
+  {% for personaje in personajes %}
+  <div class="col mb-4">
+    <div class="card" style="width: 18rem">
+      <img src="{{ personaje.imagen }}" class="card-img-top" />
+      <div class="card-body">
+        <h5 class="card-title">{{ personaje.nombre }}</h5>
+        <p class="card-text">{{ personaje.profesion }}</p>
+      <a href="#"class="btn btn-primary">Ver más</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

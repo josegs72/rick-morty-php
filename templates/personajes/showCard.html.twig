@@ -1,0 +1,18 @@
+{% extends 'personajes/basePersonajes.html.twig' %}
+
+{% block contenido %}
+<div class="container">
+        <div class="row">
+          <div class="col text-center">
+            <h2>{{ personaje.nombre }} Nº {{ personaje.codigo }}</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col"><img src="{{ personaje.imagen }}" /></div>
+          <div class="col">
+            <div class="row"><div class="col">{{ personaje.profesion }}</div></div>
+            <div class="row"><div class="col">Edad: {{ personaje.edad }}</div></div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
