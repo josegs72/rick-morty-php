@@ -5,11 +5,12 @@
   {% for personaje in personajes %}
   <div class="col mb-4">
     <div class="card" style="width: 18rem">
-      <img src="{{ personaje.imagen }}" class="card-img-top" />
+      <img src="{{ personaje.image }}" class="card-img-top" />
       <div class="card-body">
         <h5 class="card-title">{{ personaje.nombre }}</h5>
-        <p class="card-text">{{ personaje.profesion }}</p>
-      <a href="#"class="btn btn-primary">Ver más</a>
+       
+        <a href="{{ path('showCard',{id:personaje.id}) }}" class="btn btn-primary">Más Info</a>
+      
       </div>
     </div>
   </div>

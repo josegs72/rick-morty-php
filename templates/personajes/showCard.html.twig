@@ -4,14 +4,26 @@
 <div class="container">
         <div class="row">
           <div class="col text-center">
-            <h2>{{ personaje.nombre }} Nº {{ personaje.codigo }}</h2>
+            <h2>{{ personaje.nombre }} </h2>
           </div>
         </div>
         <div class="row">
-          <div class="col"><img src="{{ personaje.imagen }}" /></div>
+          <div class="col"><img src="{{ personaje.image }}" /></div>
           <div class="col">
-            <div class="row"><div class="col">{{ personaje.profesion }}</div></div>
-            <div class="row"><div class="col">Edad: {{ personaje.edad }}</div></div>
+            <div class="row"><div class="col">{{ personaje.gender }}</div></div>
+            <div class="col">
+            <div class="row"><div class="col">{{ personaje.status }}</div></div>
+            <div class="col">
+            <div class="row"><div class="col">{{ personaje.species }}</div></div>
+            <div class="row">
+              <ul>
+                {% for episodio in personaje.episodio %}
+                <li>Episodio: {{ episodio.episodio}}</li>
+                {% endfor %}
+              </ul>
+            </div>
+
+          
           </div>
         </div>
       </div>
