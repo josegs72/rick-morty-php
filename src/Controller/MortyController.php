@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\PersonajeType;
 
 class MortyController extends AbstractController
 {
@@ -153,24 +154,17 @@ class MortyController extends AbstractController
       $doctrine->flush();
          return new Response('Todos Personajes creados');
    }
+ 
    #[Route('/insert/personaje', name: 'insertPersonaje')]
-   public function insertPersonaje(Request $request, EntityManagerInterface $doctrine, PokemonManager $manager) {
-       $form = $this-> createForm(PokemonType::class);
-       $form-> handleRequest($request);
-       if ($form-> isSubmitted() && $form-> isValid()) {
-           $pokemon = $form-> getData();
-           $pokemonImage = $form->get('imagenPokemon') -> getData();
-           if ($pokemonImage){
-               $pokeImage = $manager -> load($pokemonImage, $this->getParameter('kernel.project_dir').'/public/asset/image' );
-               $pokemon -> setImagen('/asset/image/'.$pokeImage);
-           }
-           $doctrine-> persist($pokemon);
-           $doctrine-> flush();
-           $this-> addFlash('success', 'Pokemon insertado correctamente');
-           return $this-> redirectToRoute('listPokemon');
-       }
-       return $this-> renderForm('pokemons/createPokemon.html.twig', [
-           'pokemonForm'=> $form
-       ]);
-   } 
+   public function insertPersonaje(){
+    $form = $this->createForm(PersonajeType::class);
+    return $this->renderForm('personajes/createPersonajes.html.twig', [
+    'personajeForm' => $form
+    ]);
+        
+    
+   
+
 }
+   } 
+
