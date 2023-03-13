@@ -1,5 +1,12 @@
 {% extends 'personajes/basePersonajes.html.twig' %} 
 {% block contenido %}
+{% for mensaje in app.flashes('success') %}
+<style>
+    .heading { color: #FF0000; }
+    .tamaño { font-size: 30px; }
+  </style>
+<p class="heading tamaño">{{ mensaje }}</p>
+{% endfor %}
 <h2>Listado de Personajes</h2>
 <div class="row row-cols-1 row-cols-md-2">
   {% for personaje in personajes %}
@@ -10,6 +17,9 @@
         <h5 class="card-title">{{ personaje.nombre }}</h5>
        
         <a href="{{ path('showCard',{id:personaje.id}) }}" class="btn btn-primary">Más Info</a>
+       <a href="{{ path('editPersonaje',{id:personaje.id}) }}" class="btn btn-primary">Editar</a>
+        <a href="{{ path('deletePersonaje',{id:personaje.id}) }}" class="btn btn-primary">Eliminar</a>
+
       
       </div>
     </div>

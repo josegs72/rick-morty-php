@@ -10,21 +10,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\PersonajeType;
+use App\Manager\PersonajeManager;
 
 class MortyController extends AbstractController
 {
 
-   #[Route('/personaje/{id}', name:'showCard')]  
-   public function showPokemon(EntityManagerInterface $doctrine, $id){
-      $repositorio=$doctrine->getRepository(Personaje::class);
-      $personaje=$repositorio->find($id);
-      return $this->render('personajes/showCard.html.twig', ['personaje'=> $personaje]);
-  }
-   
+   #[Route('/personaje/{id}', name: 'showCard')]
+   public function showPerson(EntityManagerInterface $doctrine, $id)
+   {
+      $repositorio = $doctrine->getRepository(Personaje::class);
+      $personaje = $repositorio->find($id);
+      return $this->render('personajes/showCard.html.twig', ['personaje' => $personaje]);
+   }
+
    #[Route('/personajes', name: 'listPersonajes')]
    public function listPersonajes(EntityManagerInterface $doctrine)
    {
-      $repositorio =$doctrine->getRepository(Personaje::class); 
+      $repositorio = $doctrine->getRepository(Personaje::class);
       $personajes = $repositorio->findAll();
       return $this->render('personajes/listPersonajes.html.twig', ['personajes' => $personajes]);
    }
@@ -37,18 +39,16 @@ class MortyController extends AbstractController
       $personaje1->setStatus('Vivo');
       $personaje1->setGender('hombre');
       $personaje1->setImage('https://rickandmortyapi.com/api/character/avatar/1.jpeg');
-      $personaje1->setName
-      ('Rick Sanchez');
+
       $personaje1->setSpecies('Human');
-     
-      
+
+
       $personaje2 = new Personaje();
       $personaje2->setNombre('Morty Smith');
       $personaje2->setStatus('Vivo');
       $personaje2->setGender('hombre');
       $personaje2->setImage('https://rickandmortyapi.com/api/character/avatar/2.jpeg');
-      $personaje2->setName
-      ('Morty Smith');
+
       $personaje2->setSpecies('Human');
 
       $personaje3 = new Personaje();
@@ -96,7 +96,7 @@ class MortyController extends AbstractController
       $personaje9 = new Personaje();
       $personaje9->setNombre('Agency Director');
       $personaje9->setStatus('Vivo');
-      $personaje9->setGender('hombre');   
+      $personaje9->setGender('hombre');
       $personaje9->setImage('https://rickandmortyapi.com/api/character/avatar/9.jpeg');
       $personaje9->setSpecies('Humanoid');
 
@@ -110,30 +110,30 @@ class MortyController extends AbstractController
 
 
       $episodio1 = new Episodios();
-      $episodio1->setEpisodio('S01E01');
+      $episodio1->setEpisodio('Temporada1');
 
       $episodio2 = new Episodios();
-      $episodio2->setEpisodio('S01E02');
+      $episodio2->setEpisodio('Temporada2');
 
       $episodio3 = new Episodios();
-      $episodio3->setEpisodio('S01E03');
+      $episodio3->setEpisodio('Temporada3');
 
-      $personaje1 -> addEpisodio($episodio1);
-      $personaje1 -> addEpisodio($episodio2);
-      $personaje2 -> addEpisodio($episodio3);
-      $personaje3 -> addEpisodio($episodio1);
-      $personaje4 -> addEpisodio($episodio2);
-      $personaje5 -> addEpisodio($episodio3);
-      $personaje6 -> addEpisodio($episodio1);
-      $personaje7 -> addEpisodio($episodio2);
-      $personaje8 -> addEpisodio($episodio3);
-      $personaje9 -> addEpisodio($episodio1);
-      $personaje10 -> addEpisodio($episodio2);
+      $personaje1->addEpisodio($episodio1);
+      $personaje1->addEpisodio($episodio2);
+      $personaje2->addEpisodio($episodio3);
+      $personaje3->addEpisodio($episodio1);
+      $personaje4->addEpisodio($episodio2);
+      $personaje5->addEpisodio($episodio3);
+      $personaje6->addEpisodio($episodio1);
+      $personaje7->addEpisodio($episodio2);
+      $personaje8->addEpisodio($episodio3);
+      $personaje9->addEpisodio($episodio1);
+      $personaje10->addEpisodio($episodio2);
 
 
 
-     
-      
+
+
       $doctrine->persist($personaje1);
       $doctrine->persist($personaje2);
       $doctrine->persist($personaje3);
@@ -144,7 +144,7 @@ class MortyController extends AbstractController
       $doctrine->persist($personaje8);
       $doctrine->persist($personaje9);
       $doctrine->persist($personaje10);
-      
+
 
       $doctrine->persist($episodio1);
       $doctrine->persist($episodio2);
@@ -152,19 +152,58 @@ class MortyController extends AbstractController
 
 
       $doctrine->flush();
-         return new Response('Todos Personajes creados');
+      return new Response('Todos Personajes creados');
    }
- 
+
    #[Route('/insert/personaje', name: 'insertPersonaje')]
-   public function insertPersonaje(){
-    $form = $this->createForm(PersonajeType::class);
-    return $this->renderForm('personajes/createPersonajes.html.twig', [
-    'personajeForm' => $form
-    ]);
-        
-    
-   
+   public function insertPersonaje(Request $request, EntityManagerInterface $doctrine,PersonajeManager $manager)
+   {
+      $form = $this->createForm(PersonajeType::class);
+      $form->handleRequest($request);
+      if ($form->isSubmitted() && $form->isValid()) {
+         $personaje = $form->getData();
+         $personajeImagen = $form->get('imagenPersonaje')->getData();
+      /*   if ($personajeImagen){
+            $personImage = $manager -> load($personajeImagen, $this->getParameter('kernel.project_dir').'/public/asset/image' );
+            $personaje -> setImagen('/asset/image/'.$personImage);
+         } */
+         $doctrine->persist($personaje);
+         $doctrine->flush();
+         $this->addFlash('success', 'Personaje creado correctamente');
+         return $this->redirectToRoute('listPersonajes');
+      }
+      return $this->renderForm('personajes/createPersonajes.html.twig', [
+         'personajeForm' => $form
+      ]);
+   }
 
+   #[Route('/edit/personaje/{id}', name: 'editPersonaje')]
+   public function editPersonaje(Request $request, EntityManagerInterface $doctrine, $id)
+   {
+      $repositorio = $doctrine->getRepository(Personaje::class);
+      $personaje = $repositorio->find($id);
+
+      $form = $this->createForm(PersonajeType::class, $personaje);
+      $form->handleRequest($request);
+      if ($form->isSubmitted() && $form->isValid()) {
+         $personaje = $form->getData();
+         $doctrine->persist($personaje);
+         $doctrine->flush();
+         $this->addFlash('success', 'Personaje creado correctamente');
+         return $this->redirectToRoute('listPersonajes');
+      }
+      return $this->renderForm('personajes/createPersonajes.html.twig', [
+         'personajeForm' => $form
+      ]);
+   }
+   #[Route('/delete/personaje/{id}', name: 'deletePersonaje')]
+   public function deletePersonaje(EntityManagerInterface $doctrine, $id)
+   {
+      $repositorio = $doctrine->getRepository(Personaje::class);
+      $personaje = $repositorio->find($id);
+      $doctrine -> remove($personaje);
+      $doctrine -> flush();
+      $this->addFlash('success', 'Personaje eliminado correctamente');
+      return $this->redirectToRoute('listPersonajes');
+   }
 }
-   } 
-

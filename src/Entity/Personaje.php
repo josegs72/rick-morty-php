@@ -19,10 +19,10 @@ class Personaje
     #[ORM\Column(length: 255)]
     private ?string $nombre = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $species = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -31,8 +31,7 @@ class Personaje
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $name = null;
+   
 
     #[ORM\ManyToMany(targetEntity: Episodios::class, inversedBy: 'personajes')]
     private Collection $episodio;
@@ -107,18 +106,9 @@ class Personaje
         return $this;
     }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
+  
 
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
+    
     /**
      * @return Collection<int, Episodios>
      */
