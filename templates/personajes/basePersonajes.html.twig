@@ -6,8 +6,14 @@
       integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
       crossorigin="anonymous"
     />
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
+    <title>{% block title %}Bienvenido!{% endblock %}</title>
+     {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
   </head>
   <body>
     <div class="container">
@@ -15,6 +21,7 @@
         <a class="navbar-brand" href="#"
           ><img height="35px" src="{# LOGO #}"
         /></a>
+
         <button
           class="navbar-toggler"
           type="button"
@@ -33,9 +40,25 @@
             >
             <a class="nav-link" href="{{ path ('listPersonajes') }}">Listar Personajes</a>
             <a class="nav-link" href="{{ path ('insertPersonaje') }}">Crear Personajes</a>
+            
+            <a class="btn btn-primary iniciar_sesion"  href="{{ path('app_login') }}">Iniciar sesion</a>
+             {% if is_granted('ROLE_USER') %}
+             <style>
+             .usuario_nombre{
+               color: red;
+               font-size: 18px;
+               margin-left: 20px;
+               margin-right: 20px;
+             }
+             </style>
+          <p class="usuario_nombre">Nombre: {{ app.user.name }}</p>
+         
+          <a class="btn btn-primary cerrar_sesion"  href="{{ path('app_logout') }}">cerrar sesion</a>
+        {% endif %}
           </div>
         </div>
       </nav>
+      
      
       {% block contenido %} {% endblock %}
     </div>

@@ -7,8 +7,8 @@
   </style>
 <p class="heading tamaño">{{ mensaje }}</p>
 {% endfor %}
-<h2>Listado de Personajes</h2>
-<div class="row row-cols-1 row-cols-md-2">
+<h2 class = "listado_personaje">Listado de Personajes</h2>
+<div class="row_list">
   {% for personaje in personajes %}
   <div class="col mb-4">
     <div class="card" style="width: 18rem">
@@ -17,8 +17,16 @@
         <h5 class="card-title">{{ personaje.nombre }}</h5>
        
         <a href="{{ path('showCard',{id:personaje.id}) }}" class="btn btn-primary">Más Info</a>
+        {% if is_granted('ROLE_ADMIN') %}
        <a href="{{ path('editPersonaje',{id:personaje.id}) }}" class="btn btn-primary">Editar</a>
-        <a href="{{ path('deletePersonaje',{id:personaje.id}) }}" class="btn btn-primary">Eliminar</a>
+        {% endif %}
+
+       {% if is_granted('ROLE_ADMIN') %}
+         <a href="{{ path('deletePersonaje',{id:personaje.id}) }}" class="btn btn-primary">Eliminar</a>
+      {% endif %}
+
+       
+       
 
       
       </div>

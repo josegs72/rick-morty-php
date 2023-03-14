@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Episodios;
 use App\Entity\Personaje;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\PersonajeType;
 use App\Manager\PersonajeManager;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MortyController extends AbstractController
 {
@@ -156,22 +158,22 @@ class MortyController extends AbstractController
    }
 
    #[Route('/insert/personaje', name: 'insertPersonaje')]
-   public function insertPersonaje(Request $request, EntityManagerInterface $doctrine,PersonajeManager $manager)
-   {
+   public function insertPersonaje(Request $request, EntityManagerInterface $doctrine, PersonajeManager $manager) {
       $form = $this->createForm(PersonajeType::class);
       $form->handleRequest($request);
       if ($form->isSubmitted() && $form->isValid()) {
          $personaje = $form->getData();
-         $personajeImagen = $form->get('imagenPersonaje')->getData();
-      /*   if ($personajeImagen){
-            $personImage = $manager -> load($personajeImagen, $this->getParameter('kernel.project_dir').'/public/asset/image' );
-            $personaje -> setImagen('/asset/image/'.$personImage);
-         } */
+         $personajeImage =$form->get('imagenPersonaje') ->getData();
+         if ($personajeImage){
+            $personImage = $manager -> load($personajeImage, $this->getParameter('kernel.project_dir').'/public/asset/image');
+            $personaje -> setImage('/asset/image/'.$personImage);
+         }
          $doctrine->persist($personaje);
          $doctrine->flush();
          $this->addFlash('success', 'Personaje creado correctamente');
          return $this->redirectToRoute('listPersonajes');
       }
+
       return $this->renderForm('personajes/createPersonajes.html.twig', [
          'personajeForm' => $form
       ]);
@@ -196,6 +198,7 @@ class MortyController extends AbstractController
          'personajeForm' => $form
       ]);
    }
+   #[IsGranted('ROLE_ADMIN')]
    #[Route('/delete/personaje/{id}', name: 'deletePersonaje')]
    public function deletePersonaje(EntityManagerInterface $doctrine, $id)
    {

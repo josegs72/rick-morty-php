@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 
 class PersonajeType extends AbstractType
 {
@@ -25,7 +26,7 @@ class PersonajeType extends AbstractType
             ->add('status')
             ->add('species')
             ->add('gender')
-            ->add('imagenPersonaje' ,FileType::class, ['mapped'=> false])
+            ->add('imagenPersonaje' , FileType::class, ['mapped' => false])
             ->add('episodio' , EntityType::class, [
                 // looks for choices from this entity
                 'class' => Episodios::class,
