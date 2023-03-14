@@ -1,12 +1,14 @@
 {% extends 'personajes/basePersonajes.html.twig' %} 
 {% block contenido %}
 {% for mensaje in app.flashes('success') %}
+
 <style>
     .heading { color: #FF0000; }
     .tamaño { font-size: 30px; }
   </style>
 <p class="heading tamaño">{{ mensaje }}</p>
 {% endfor %}
+  {{ form(searchForm) }}
 <h2 class = "listado_personaje">Listado de Personajes</h2>
 <div class="row_list">
   {% for personaje in personajes %}

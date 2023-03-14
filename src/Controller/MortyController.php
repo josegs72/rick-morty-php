@@ -13,6 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\PersonajeType;
 use App\Manager\PersonajeManager;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Form\SearcherType;
+
+
+
+    
 
 class MortyController extends AbstractController
 {
@@ -26,11 +31,17 @@ class MortyController extends AbstractController
    }
 
    #[Route('/personajes', name: 'listPersonajes')]
-   public function listPersonajes(EntityManagerInterface $doctrine)
+   public function listPersonajes(EntityManagerInterface $doctrine, Request $request)
    {
+      $form = $this-> createForm(SearcherType::class);
+      $form-> handleRequest($request);
+      if ($form-> isSubmitted() && $form-> isValid()) {
+          $personaje = $form-> get('personaje')->getData();
+          return $this->redirectToRoute('showCard', ['id'=>$personaje->getId() ]);
+      }
       $repositorio = $doctrine->getRepository(Personaje::class);
       $personajes = $repositorio->findAll();
-      return $this->render('personajes/listPersonajes.html.twig', ['personajes' => $personajes]);
+      return $this->render('personajes/listPersonajes.html.twig', ['personajes' => $personajes , 'searchForm' => $form]);
    }
 
    #[Route('/new/personaje')]

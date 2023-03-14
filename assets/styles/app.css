@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(173, 238, 182);
+  background-color: rgb(179, 233, 183);
 }
 
 .listado_personaje {
@@ -21,12 +21,49 @@ body {
   margin-top: 50px;
 }
 
-.card{
-    width: 300px;
-    height: 400px;
-    margin: 10px;
-    border: 2px solid rgb(0, 0, 0);
-    border-radius: 10px;
-    background-color: rgb(236, 240, 237);
-    text-align: center;
+.card {
+  width: 300px;
+  height: 400px;
+  margin: 10px;
+  border: 3px solid rgb(0, 0, 0);
+  border-radius: 10px;
+  background-color: rgb(236, 240, 237);
+  text-align: center;
 }
+
+.card-body {
+  padding: 0px;
+}
+
+.logout{
+
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px;
+  
+}
+
+.login{
+  margin-left: 250px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 10px;
+ 
+}
+.usuario_nombre{
+  margin-left: 10px;
+  margin-top: 15px;
+  color: coral;
+  
+  margin-right: 10px;
+
+}
+
+
+
+

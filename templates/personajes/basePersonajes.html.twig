@@ -18,9 +18,11 @@
   <body>
     <div class="container">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#"
-          ><img height="35px" src="{# LOGO #}"
+        
+  <a class="navbar-brand" href="#"
+          ><img height="35px" src="{ logo.png }"
         /></a>
+
 
         <button
           class="navbar-toggler"
@@ -41,19 +43,12 @@
             <a class="nav-link" href="{{ path ('listPersonajes') }}">Listar Personajes</a>
             <a class="nav-link" href="{{ path ('insertPersonaje') }}">Crear Personajes</a>
             
-            <a class="btn btn-primary iniciar_sesion"  href="{{ path('app_login') }}">Iniciar sesion</a>
+            <a class="btn btn-primary iniciar_sesion login"  href="{{ path('app_login') }}">Iniciar sesion</a>
              {% if is_granted('ROLE_USER') %}
-             <style>
-             .usuario_nombre{
-               color: red;
-               font-size: 18px;
-               margin-left: 20px;
-               margin-right: 20px;
-             }
-             </style>
+          
           <p class="usuario_nombre">Nombre: {{ app.user.name }}</p>
          
-          <a class="btn btn-primary cerrar_sesion"  href="{{ path('app_logout') }}">cerrar sesion</a>
+          <a class="btn btn-primary cerrar_sesion logout"  href="{{ path('app_logout') }}">cerrar sesion</a>
         {% endif %}
           </div>
         </div>

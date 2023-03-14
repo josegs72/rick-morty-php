@@ -26,7 +26,7 @@ class PersonajeType extends AbstractType
             ->add('status')
             ->add('species')
             ->add('gender')
-            ->add('imagenPersonaje' , FileType::class, ['mapped' => false])
+            ->add('imagenPersonaje' , DropzoneType::class, [ 'mapped' => false])
             ->add('episodio' , EntityType::class, [
                 // looks for choices from this entity
                 'class' => Episodios::class,
